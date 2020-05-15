@@ -1,0 +1,11 @@
+{
+  "name": "huecommander",
+  "version": "0.0.1",
+  "description": "Api for commandin a Philips Hue gateway",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Lars Kåre Skjørestad",
+  "license": "MIT"
+}
