@@ -5,14 +5,17 @@
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/.bin/mocha test",
-    "lint": "node ./node_modules/.bin/eslint . --ext .js"
+    "lint": "node ./node_modules/.bin/eslint . --ext .js",
+    "start": "node ./index.js"
   },
   "author": "Lars Kåre Skjørestad",
   "license": "MIT",
   "dependencies": {
     "-": "0.0.1",
+    "body-parser": "^1.19.0",
     "express": "^4.17.1",
     "g": "^2.0.1",
+    "method-override": "^3.0.0",
     "node-hue-api": "^4.0.6",
     "snyk": "^1.321.0"
   },

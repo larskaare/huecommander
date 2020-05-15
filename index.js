@@ -1,40 +1,52 @@
-/* eslint-disable indent */
-const express = require('express');
-const app = express();
-const v3 = require('node-hue-api').v3,
-    hueApi = v3.api,
-    lightState = v3.lightStates.LightState;
+/*jslint node: true */
+/*jshint esversion: 6 */
 
-const config = require('./config/config.js');
+'use strict';
 
-const bridgeUtils = require('./src/bridgeutils');
+const app = require('./src/app.js');
+var debug = require('debug')('huecommander:server');
+var http = require('http');
 
  
-app.get('/api/switch', function (req, res) {
+const port = (process.env.PORT || 3000);
 
-    hueSwitch();
-    res.status(200).send('Ok');
-}); 
+app.set('port','port');
 
-app.listen(process.env.PORT || 3000);
+var server = http.createServer(app);
 
-async function hueSwitch() {
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
 
-    const ipAddress = await bridgeUtils.discoverBridge();
-    const authenticatedApi = await hueApi.createLocal(ipAddress).connect(config.username);
-    const currentLightStatus = await authenticatedApi.lights.getLightAttributesAndState(config.light_id);
-   
-    if (currentLightStatus.state.on) {
-        
-        const newLightState = new lightState().off();
-        const status = await authenticatedApi.lights.setLightState(config.light_id,newLightState);
-        console.log('Light turned off');
-    } else {
-          
-            const newLightState = new lightState().on().ct(200).bri(100);
-            const status = await authenticatedApi.lights.setLightState(config.light_id,newLightState);
-            console.log('Light turned on');
+
+function onError(error) {
+    if (error.syscall !== 'listen') {
+        throw error;
     }
-   
+
+    var bind = typeof port === 'string'
+        ? 'Pipe ' + port
+        : 'Port ' + port;
+
+    // handle specific listen errors with friendly messages
+    switch (error.code) {
+    case 'EACCES':
+        console.error(bind + ' requires elevated privileges');
+        process.exit(1);
+        break;
+    case 'EADDRINUSE':
+        console.error(bind + ' is already in use');
+        process.exit(1);
+        break;
+    default:
+        throw error;
+    }
 }
 
+function onListening() {
+    var addr = server.address();
+    var bind = typeof addr === 'string'
+        ? 'pipe ' + addr
+        : 'port ' + addr.port;
+    debug('Listening on ' + bind);
+}
