@@ -4,9 +4,6 @@
 'use strict';
 
 const express = require('express');
-const bodyParser = require('body-parser')
-const methodOverride = require('method-override')
-
 const app = express();
 
 var api_status_router = require('../routes/status.js');
@@ -15,20 +12,28 @@ var api_status_router = require('../routes/status.js');
 // Middleware to come
 //
 
-
-
-app.use(bodyParser.json());
-app.use(methodOverride());
-
+// Routes
 app.use('/api/status', api_status_router);
 
-app.use(function (err, req, res, next) {
-    console.log('Catching errors');
+
+
+//Catching bad url's and errors
+app.get('*', function(req, res, next) {  
+    console.log('Unknown path %s was requested, issuing a HTTP %s',req.path,404);
+    res.status(404).send();
+});
+
+
+app.use(function (error, req, res, next) {
+
+    console.log('Catching errors at end of middleware');
+    
     if (res.headersSent) {
         return next(err);
     }
-    res.status(500).send('Oops');
-    //   res.render('error', { error: err })
+
+    res.status(500).send();
+    //    res.render('error', { error: err })
 });
 
 

@@ -1,3 +1,6 @@
+/*jslint node: true */
+/*jshint esversion: 6 */
+
 'use strict';
 
 var expect = require('chai').expect;
@@ -8,7 +11,7 @@ const discovery = require('node-hue-api').v3.discovery;
 var discoverBridge = require('../src/bridgeutils.js').discoverBridge;
 
 
-describe('discoverBridge()', function () {
+describe('Bridge utils - discoverBridge()', function () {
 
     let sandbox = null;
 
@@ -49,5 +52,10 @@ describe('discoverBridge()', function () {
 
         expect(ipAddress).to.be.null;
     });
+
+
+
+
+
 
 });

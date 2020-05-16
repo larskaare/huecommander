@@ -1,3 +1,7 @@
+/*jslint node: true */
+/*jshint esversion: 6 */
+
+'use strict';
 
 const v3 = require('node-hue-api').v3,
     hueApi = v3.api,
