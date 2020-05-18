@@ -46,5 +46,62 @@ async function hueSwitch() {
    
 }
 
+async function setOccupied() {
+
+    const ipAddress = await discoverBridge();
+    const authenticatedApi = await hueApi.createLocal(ipAddress).connect(config.username);
+    const currentLightStatus = await authenticatedApi.lights.getLightAttributesAndState(config.light_id);
+   
+    const newLightState = new lightState().on().ct(153).bri(198).hue(1416).sat(234).xy([0.6404,0.3337]);
+    const status = await authenticatedApi.lights.setLightState(config.light_id,newLightState);
+
+    if (status) {
+        logger.info('Light turned on, status OCCUPIED');
+    } else {
+        logger.error('Unable to set new light state - current state ' + JSON.stringify(currentLightStatus));
+    }
     
-module.exports = {discoverBridge, hueSwitch};
+}
+
+async function SetAvailable() {
+
+    const ipAddress = await discoverBridge();
+    const authenticatedApi = await hueApi.createLocal(ipAddress).connect(config.username);
+    const currentLightStatus = await authenticatedApi.lights.getLightAttributesAndState(config.light_id);
+   
+    logger.info(JSON.stringify(currentLightStatus));
+    
+    const newLightState = new lightState().on().ct(153).bri(198).hue(1416).sat(234).xy([0.378,0.5437]);
+    const status = await authenticatedApi.lights.setLightState(config.light_id,newLightState);
+
+    if (status) {
+        logger.info('Light turned on, status OCCUPIED');
+    } else {
+        logger.error('Unable to set new light state - current state ' + JSON.stringify(currentLightStatus));
+    }
+    
+
+}
+    
+
+async function SetAway() {
+
+    const ipAddress = await discoverBridge();
+    const authenticatedApi = await hueApi.createLocal(ipAddress).connect(config.username);
+    const currentLightStatus = await authenticatedApi.lights.getLightAttributesAndState(config.light_id);
+   
+    logger.info(JSON.stringify(currentLightStatus));
+    
+    const newLightState = new lightState().on().ct(153).bri(198).hue(1416).sat(234).xy([0.1714,0.3545]);
+    const status = await authenticatedApi.lights.setLightState(config.light_id,newLightState);
+
+    if (status) {
+        logger.info('Light turned on, status OCCUPIED');
+    } else {
+        logger.error('Unable to set new light state - current state ' + JSON.stringify(currentLightStatus));
+    }
+    
+
+}
+    
+module.exports = {discoverBridge, hueSwitch, setOccupied, SetAvailable, SetAway} ;

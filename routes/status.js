@@ -19,19 +19,22 @@ router.get('/switch', function(req, res) {
 
 router.get('/opptatt', function(req, res) {
 
-    res.sendStatus(501);
+    bridgeUtils.setOccupied();    
+    res.sendStatus(200);
 
 });
 
 router.get('/ledig', function(req, res) {
 
-    res.sendStatus(501);
+    bridgeUtils.SetAvailable();
+    res.sendStatus(200);
 
 });
 
 router.get('/borte', function(req, res) {
 
-    res.sendStatus(501);
+    bridgeUtils.SetAway;
+    res.sendStatus(200);
 
 });
 
