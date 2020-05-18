@@ -14,10 +14,12 @@
     "-": "0.0.1",
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
+    "express-winston": "^4.0.3",
     "g": "^2.0.1",
     "method-override": "^3.0.0",
     "node-hue-api": "^4.0.6",
-    "snyk": "^1.321.0"
+    "snyk": "^1.321.0",
+    "winston": "^3.2.1"
   },
   "devDependencies": {
     "chai": "^4.2.0",

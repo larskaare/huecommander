@@ -5,6 +5,10 @@
 
 const express = require('express');
 const app = express();
+var logger = require('./loghelper.js').logger;
+var expressLogger = require('./loghelper.js').expressLogger;
+var winston = require('winston');
+var expressWinston = require('express-winston');
 
 var api_status_router = require('../routes/status.js');
 
@@ -12,6 +16,22 @@ var api_status_router = require('../routes/status.js');
 // Middleware to come
 //
 
+app.use(expressWinston.logger({
+    transports: [
+      new winston.transports.Console()
+    ],
+    format: winston.format.combine(
+      winston.format.colorize(),
+      winston.format.simple()
+    ),
+    meta: false, 
+    msg: "HTTP {{req.method}} {{req.url}}", 
+    expressFormat: true, 
+    colorize: true,
+    ignoreRoute: function (req, res) { return false; } 
+}));
+
+  
 // Routes
 app.use('/api/status', api_status_router);
 
@@ -19,14 +39,14 @@ app.use('/api/status', api_status_router);
 
 //Catching bad url's and errors
 app.get('*', function(req, res, next) {  
-    console.log('Unknown path %s was requested, issuing a HTTP %s',req.path,404);
+    logger.info('Unknown path %s was requested, issuing a HTTP %s',req.path,404);
     res.status(404).send();
 });
 
 
 app.use(function (error, req, res, next) {
 
-    console.log('Catching errors at end of middleware');
+    logger.info('Catching errors at end of middleware');
     
     if (res.headersSent) {
         return next(err);

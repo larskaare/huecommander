@@ -9,8 +9,11 @@ var http = require('http');
 
 var config = require('./config/config.js');
 
+var logger = require('./src/loghelper.js').logger;
+
+
 if (('undefined' == typeof(config.username)) || (config.username.length <= 0)) { 
-    console.error('Unable to start and connect to HUE bridge when username is not defined');
+    logger.error('Unable to start and connect to HUE bridge when username is not defined');
     process.exit(1);
 };
 

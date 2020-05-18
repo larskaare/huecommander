@@ -3,6 +3,8 @@
 
 'use strict';
 
+var logger = require('./loghelper.js').logger;
+
 const v3 = require('node-hue-api').v3,
     hueApi = v3.api,
     lightState = v3.lightStates.LightState,
@@ -16,7 +18,7 @@ async function discoverBridge() {
     const discoveryResults = await discovery.nupnpSearch();
    
     if (discoveryResults.length === 0) {
-        console.error('Failed to resolve any Hue Bridges');
+        logger.error('Failed to resolve any Hue Bridges');
         return null;
     } else {
         return discoveryResults[0].ipaddress;
@@ -34,12 +36,12 @@ async function hueSwitch() {
         
         const newLightState = new lightState().off();
         const status = await authenticatedApi.lights.setLightState(config.light_id,newLightState);
-        console.log('Light turned off');
+        logger.info('Light turned off');
     } else {
           
         const newLightState = new lightState().on().ct(200).bri(100);
         const status = await authenticatedApi.lights.setLightState(config.light_id,newLightState);
-        console.log('Light turned on');
+        logger.info('Light turned on');
     }
    
 }
