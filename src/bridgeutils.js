@@ -12,7 +12,14 @@ const v3 = require('node-hue-api').v3,
 
 const config = require('../config/config.js');
 
+//Const to keep color values for status api
+const StatusColors = {
+    'Away' : [0.1714,0.3545],
+    'Occupied' :[0.6404,0.3337] ,
+    'Available' : [0.378,0.5437]
+};
 
+//Async function to do bridge discovery
 async function discoverBridge() {
 
     const discoveryResults = await discovery.nupnpSearch();
@@ -25,11 +32,16 @@ async function discoverBridge() {
     }
 }
 
+//Async function to switch status light on / off
+async function StatusSwitch() {
+    let authenticatedApi, colorCode;
 
-async function hueSwitch() {
+    try {
+        authenticatedApi = await getAuthenticatedApi();
+    } catch(err) {
+        logger.error('SetStatus was not able to get an authenticated API');
+    }
 
-    const ipAddress = await discoverBridge();
-    const authenticatedApi = await hueApi.createLocal(ipAddress).connect(config.username);
     const currentLightStatus = await authenticatedApi.lights.getLightAttributesAndState(config.light_id);
    
     if (currentLightStatus.state.on) {
@@ -39,69 +51,72 @@ async function hueSwitch() {
         logger.info('Light turned off is ' + status);
     } else {
           
-        const newLightState = new lightState().on().ct(200).bri(100);
+        const newLightState = new lightState().on();
         const status = await authenticatedApi.lights.setLightState(config.light_id,newLightState);
         logger.info('Light turned on is ' + status);
     }
    
-}
+}  
 
-async function setOccupied() {
+//Async function to set colors of statys light
+async function SetStatus(status) {
+    let authenticatedApi, colorCode;
 
-    const ipAddress = await discoverBridge();
-    const authenticatedApi = await hueApi.createLocal(ipAddress).connect(config.username);
-    const currentLightStatus = await authenticatedApi.lights.getLightAttributesAndState(config.light_id);
-   
-    const newLightState = new lightState().on().ct(153).bri(198).hue(1416).sat(234).xy([0.6404,0.3337]);
-    const status = await authenticatedApi.lights.setLightState(config.light_id,newLightState);
+    try {
+        authenticatedApi = await getAuthenticatedApi();
+    } catch(err) {
+        logger.error('SetStatus was not able to get an authenticated API');
+    }
 
-    if (status) {
-        logger.info('Light turned on, status OCCUPIED');
-    } else {
-        logger.error('Unable to set new light state - current state ' + JSON.stringify(currentLightStatus));
+    switch (status) {
+    case 'away':
+        colorCode = StatusColors.Away;
+        break;
+    case 'available':
+        colorCode = StatusColors.Available;
+        break;
+    case 'occupied' :
+        colorCode = StatusColors.Occupied;
+        break;
+    default:
+        colorCode = StatusColors.Available;
+        break;
+    }
+
+    const newLightState = new lightState().on().ct(153).bri(198).hue(1416).sat(234).xy(colorCode);
+    
+    try {
+        const setLight = await authenticatedApi.lights.setLightState(config.light_id,newLightState);
+        logger.info('Light turned on, status ' + status + ' (' + setLight + ')');
+    } catch (err) {
+        logger.error('Unable to set new light state - current state ' + err);
     }
     
 }
 
-async function SetAvailable() {
 
-    const ipAddress = await discoverBridge();
-    const authenticatedApi = await hueApi.createLocal(ipAddress).connect(config.username);
-    const currentLightStatus = await authenticatedApi.lights.getLightAttributesAndState(config.light_id);
-   
-    logger.info(JSON.stringify(currentLightStatus));
-    
-    const newLightState = new lightState().on().ct(153).bri(198).hue(1416).sat(234).xy([0.378,0.5437]);
-    const status = await authenticatedApi.lights.setLightState(config.light_id,newLightState);
+//Async function to get authenticated api (used in most other functions)
+async function getAuthenticatedApi() {
+    let ipAddress, authenticatedApi;
 
-    if (status) {
-        logger.info('Light turned on, status OCCUPIED');
-    } else {
-        logger.error('Unable to set new light state - current state ' + JSON.stringify(currentLightStatus));
+    try {
+        ipAddress = await discoverBridge();
+        logger.debug('Discovered Bridge at ' + ipAddress);
+
+    } catch (err) {
+        logger.error('Unable to discover any HUE bridges ' + err);
     }
-    
+
+    try {
+        authenticatedApi = await hueApi.createLocal(ipAddress).connect(config.username);
+        logger.debug('Got authenticated API');
+    } catch (err) {
+        logger.error('Unable to aquire a authenticated API ' + err);
+    }
+
+    return  authenticatedApi;
 
 }
-    
 
-async function SetAway() {
-
-    const ipAddress = await discoverBridge();
-    const authenticatedApi = await hueApi.createLocal(ipAddress).connect(config.username);
-    const currentLightStatus = await authenticatedApi.lights.getLightAttributesAndState(config.light_id);
-   
-    logger.info(JSON.stringify(currentLightStatus));
     
-    const newLightState = new lightState().on().ct(153).bri(198).hue(1416).sat(234).xy([0.1714,0.3545]);
-    const status = await authenticatedApi.lights.setLightState(config.light_id,newLightState);
-
-    if (status) {
-        logger.info('Light turned on, status OCCUPIED');
-    } else {
-        logger.error('Unable to set new light state - current state ' + JSON.stringify(currentLightStatus));
-    }
-    
-
-}
-    
-module.exports = {discoverBridge, hueSwitch, setOccupied, SetAvailable, SetAway} ;
+module.exports = {discoverBridge, StatusSwitch, SetStatus} ;

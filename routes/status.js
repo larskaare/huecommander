@@ -11,29 +11,29 @@ const bridgeUtils = require('../src/bridgeutils');
 
 router.get('/switch', function(req, res) {
 
-    bridgeUtils.hueSwitch();
+    bridgeUtils.StatusSwitch();
     res.sendStatus(200);
 
 });
 
 
 router.get('/opptatt', function(req, res) {
-
-    bridgeUtils.setOccupied();    
+       
+    bridgeUtils.SetStatus('occupied');
     res.sendStatus(200);
 
 });
 
 router.get('/ledig', function(req, res) {
 
-    bridgeUtils.SetAvailable();
+    bridgeUtils.SetStatus('available');
     res.sendStatus(200);
 
 });
 
 router.get('/borte', function(req, res) {
 
-    bridgeUtils.SetAway;
+    bridgeUtils.SetStatus('away');
     res.sendStatus(200);
 
 });
