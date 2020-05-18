@@ -36,12 +36,12 @@ async function hueSwitch() {
         
         const newLightState = new lightState().off();
         const status = await authenticatedApi.lights.setLightState(config.light_id,newLightState);
-        logger.info('Light turned off');
+        logger.info('Light turned off is ' + status);
     } else {
           
         const newLightState = new lightState().on().ct(200).bri(100);
         const status = await authenticatedApi.lights.setLightState(config.light_id,newLightState);
-        logger.info('Light turned on');
+        logger.info('Light turned on is ' + status);
     }
    
 }

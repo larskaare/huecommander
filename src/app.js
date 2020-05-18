@@ -6,7 +6,6 @@
 const express = require('express');
 const app = express();
 var logger = require('./loghelper.js').logger;
-var expressLogger = require('./loghelper.js').expressLogger;
 var winston = require('winston');
 var expressWinston = require('express-winston');
 
@@ -18,14 +17,14 @@ var api_status_router = require('../routes/status.js');
 
 app.use(expressWinston.logger({
     transports: [
-      new winston.transports.Console()
+        new winston.transports.Console()
     ],
     format: winston.format.combine(
-      winston.format.colorize(),
-      winston.format.simple()
+        winston.format.colorize(),
+        winston.format.simple()
     ),
     meta: false, 
-    msg: "HTTP {{req.method}} {{req.url}}", 
+    msg: 'HTTP {{req.method}} {{req.url}}', 
     expressFormat: true, 
     colorize: true,
     ignoreRoute: function (req, res) { return false; } 
@@ -49,7 +48,7 @@ app.use(function (error, req, res, next) {
     logger.info('Catching errors at end of middleware');
     
     if (res.headersSent) {
-        return next(err);
+        return next(error);
     }
 
     res.status(500).send();

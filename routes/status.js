@@ -3,8 +3,6 @@
 
 'use strict';
 
-var logger = require('../src/loghelper.js').logger;
-
 var express = require('express');
 var router = express.Router();
 

@@ -28,7 +28,7 @@
         ],
         "no-unused-vars": [
             "warn", 
-            { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }
+            { "vars": "all", "args": "none", "ignoreRestSiblings": false }
         ],
         "no-console": 0
     }
