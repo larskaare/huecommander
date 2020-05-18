@@ -33,11 +33,13 @@ describe('Bridge utils - discoverBridge()', function () {
             'swversion': '1938112040'
         }];
 
-        sandbox.stub(discovery, 'nupnpSearch').resolves(discoveryObject);
 
+        sandbox.stub(discovery, 'nupnpSearch').resolves(discoveryObject);
+      
         var ipAddress = await discoverBridge();
 
         expect(ipAddress).to.be.equals('192.168.0.255');
+
 
     });
 

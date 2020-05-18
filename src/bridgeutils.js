@@ -34,7 +34,7 @@ async function discoverBridge() {
 
 //Async function to switch status light on / off
 async function StatusSwitch() {
-    let authenticatedApi, colorCode;
+    let authenticatedApi;
 
     try {
         authenticatedApi = await getAuthenticatedApi();
