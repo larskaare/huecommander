@@ -38,7 +38,7 @@ app.use('/api/status', api_status_router);
 
 //Catching bad url's and errors
 app.get('*', function(req, res, next) {  
-    logger.info('Unknown path %s was requested, issuing a HTTP %s',req.path,404);
+    logger.info('Unknown path ' + req.path + ' was requested, issuing a HTTP 404');
     res.status(404).send();
 });
 
