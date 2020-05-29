@@ -1,0 +1,28 @@
+extends layout
+
+block content
+  h1= title
+
+  if !user
+    h2 Welcome!
+    a(href='/login') Log In
+  else
+    p Greetings! #{user.displayName}
+    p
+    h3 Hue commander API
+    p Last command: #{lastCommand}
+    p 
+    a(href='/api/status/opptatt') Set status til opptatt
+    p
+    a(href='/api/status/ledig') Set status til ledig
+    p
+    a(href='/api/status/borte') Set status til borte
+    p
+    a(href='/api/status/switch') Skru lys av/på
+    p
+    a(href='/api/status/ad') Les AD Status og sett lys deretter
+
+ 
+   
+  
+    

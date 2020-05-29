@@ -1,34 +1,59 @@
-/*jslint node: true */
-/*jshint esversion: 6 */
+#!/usr/bin/env node
 
-'use strict';
+var appConfig = require('../config/config.js').appConfig;
 
-const app = require('./src/app.js');
-var debug = require('debug')('huecommander:server');
+/**
+ * Module dependencies.
+ */
+
+var app = require('../src/app');
+var debug = require('debug')('ex-8:server');
 var http = require('http');
 
-var config = require('./config/config.js');
+/**
+ * Get port from environment and store in Express.
+ */
 
-var logger = require('./src/loghelper.js').logger;
+var port = normalizePort(process.env.PORT || appConfig.port || '3000');
+app.set('port', port);
 
-
-if (('undefined' == typeof(config.username)) || (config.username.length <= 0)) { 
-    logger.error('Unable to start and connect to HUE bridge when username is not defined');
-    process.exit(1);
-}
-
-
- 
-const port = (process.env.PORT || 3000);
-
-app.set('port','port');
+/**
+ * Create HTTP server.
+ */
 
 var server = http.createServer(app);
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
 
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+    var port = parseInt(val, 10);
+
+    if (isNaN(port)) {
+    // named pipe
+        return val;
+    }
+
+    if (port >= 0) {
+    // port number
+        return port;
+    }
+
+    return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
 
 function onError(error) {
     if (error.syscall !== 'listen') {
@@ -53,6 +78,10 @@ function onError(error) {
         throw error;
     }
 }
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
 
 function onListening() {
     var addr = server.address();
