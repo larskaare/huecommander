@@ -1,0 +1,17 @@
+extends layout
+
+block content
+ <meta http-equiv="refresh" content="30" >
+    
+  h2 Continous refresh of status based on AD presence
+  
+  p Last command: #{lastCommand}
+  p 
+  a(href='/') Back
+  p
+  p Setting status to <b>Occupied</b> when actvity is 'InACall', 'InAConferenceCall' or 'Presenting' 
+  p Setting status to <b>Available</b> for other activites
+  p auto refresh every 30 seconds
+
+
+    

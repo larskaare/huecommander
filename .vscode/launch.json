@@ -1,0 +1,23 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "HUE Commander",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/src/www.js",
+            "env": {
+                "NODE_ENV": "development",
+                "CLIENT_ID": "",
+                "TENANT_ID": "",
+                "CLIENT_SECRET": "",
+                "REDIRECT_URL": "http://localhost:3000/auth/openid/return",
+                "PORT": "3000",
+                "HUE_USERNAME": ""
+            }
+        }
+    ]
+}
