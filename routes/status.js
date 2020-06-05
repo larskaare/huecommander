@@ -70,11 +70,6 @@ router.get('/presence', authUtil.ensureAuthenticated, function(req, res) {
             
             log.info('Got response ' + JSON.stringify(presence));
 
-            const lastCommand = 'AD ((Availability:' + presence.availability + ' - Activity:' + presence.activity + ')';
-
-            //API ref  https://docs.microsoft.com/en-us/graph/api/resources/presence?view=graph-rest-beta
-
-
             //if (presence.activity === 'InACall' || presence.activity === 'InAConferenceCall' || presence.activity === 'InAMeeting' || presence.activity === 'Presenting') {
             if (presence.activity === 'InACall' || presence.activity === 'InAConferenceCall' || presence.activity === 'Presenting') {
             

@@ -63,7 +63,7 @@ async function StatusSwitch() {
 async function SetStatus(status) {
     let authenticatedApi, colorCode;
 
-    log.info('Preparing to set HUE status light to ' + status)
+    log.info('Preparing to set HUE status light to ' + status);
 
     try {
         authenticatedApi = await getAuthenticatedApi();
