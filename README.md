@@ -43,6 +43,11 @@ export HUE_USERNAME="<The Hue Bridge credentials>"
 
 Create the Hue Bridge credentials using the [Hue Api](https://developers.meethue.com/develop/hue-api/)
 
+### Azure AD
+
+To be able to read you presence status from Office 365 you need an application object in a relevant Azure AD. The object is used to log in (single sign on) and aquire access tokens used to read the status from the Office 365 graph. More information on this on [Microsoft Docs](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app)
+
+
 ## Run
 
 It's easy enough (it works on my machine)
