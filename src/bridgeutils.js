@@ -3,14 +3,15 @@
 
 'use strict';
 
-var logger = require('./loghelper.js').logger;
+var logHelper = require('./logHelper');
+var log = logHelper.createLogger();
 
 const v3 = require('node-hue-api').v3,
     hueApi = v3.api,
     lightState = v3.lightStates.LightState,
     discovery = v3.discovery;
 
-const config = require('../config/config.js');
+const config = require('../config/config.js').hue;
 
 //Const to keep color values for status api
 const StatusColors = {
@@ -25,7 +26,7 @@ async function discoverBridge() {
     const discoveryResults = await discovery.nupnpSearch();
    
     if (discoveryResults.length === 0) {
-        logger.error('Failed to resolve any Hue Bridges');
+        log.error('Failed to resolve any Hue Bridges');
         return null;
     } else {
         return discoveryResults[0].ipaddress;
@@ -39,7 +40,7 @@ async function StatusSwitch() {
     try {
         authenticatedApi = await getAuthenticatedApi();
     } catch(err) {
-        logger.error('SetStatus was not able to get an authenticated API');
+        log.error('SetStatus was not able to get an authenticated HUE API');
     }
 
     const currentLightStatus = await authenticatedApi.lights.getLightAttributesAndState(config.light_id);
@@ -48,12 +49,12 @@ async function StatusSwitch() {
         
         const newLightState = new lightState().off();
         const status = await authenticatedApi.lights.setLightState(config.light_id,newLightState);
-        logger.info('Light turned off is ' + status);
+        log.info('Hue Status light turned off is ' + status);
     } else {
           
         const newLightState = new lightState().on();
         const status = await authenticatedApi.lights.setLightState(config.light_id,newLightState);
-        logger.info('Light turned on is ' + status);
+        log.info('Hue Status light turned on is ' + status);
     }
    
 }  
@@ -62,10 +63,12 @@ async function StatusSwitch() {
 async function SetStatus(status) {
     let authenticatedApi, colorCode;
 
+    log.info('Preparing to set HUE status light to ' + status);
+
     try {
         authenticatedApi = await getAuthenticatedApi();
     } catch(err) {
-        logger.error('SetStatus was not able to get an authenticated API');
+        log.error('HUE SetStatus was not able to get an authenticated API');
     }
 
     switch (status) {
@@ -87,9 +90,9 @@ async function SetStatus(status) {
     
     try {
         const setLight = await authenticatedApi.lights.setLightState(config.light_id,newLightState);
-        logger.info('Light turned on, status ' + status + ' (' + setLight + ')');
+        log.info('HUE Status Light turned on, status ' + status + ' (' + setLight + ')');
     } catch (err) {
-        logger.error('Unable to set new light state - current state ' + err);
+        log.error('Unable to set new HUE Status Light - current state ' + err);
     }
     
 }
@@ -101,17 +104,17 @@ async function getAuthenticatedApi() {
 
     try {
         ipAddress = await discoverBridge();
-        logger.debug('Discovered Bridge at ' + ipAddress);
+        log.debug('HUE - Discovered Bridge at ' + ipAddress);
 
     } catch (err) {
-        logger.error('Unable to discover any HUE bridges ' + err);
+        log.error('Unable to discover any HUE bridges ' + err);
     }
 
     try {
         authenticatedApi = await hueApi.createLocal(ipAddress).connect(config.username);
-        logger.debug('Got authenticated API');
+        log.debug('HUE - Got authenticated API');
     } catch (err) {
-        logger.error('Unable to aquire a authenticated API ' + err);
+        log.error('HUE - Unable to aquire a authenticated API ' + err);
     }
 
     return  authenticatedApi;
