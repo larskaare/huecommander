@@ -3,24 +3,29 @@ extends layout
 block content
   h1= title
 
+  p Set HUE lights depending on status - and on your presence in O365
+
+  h3 Hue commander API
+
+  p Last command: <b>#{lastCommand}</b>
+  p 
+  a(href='/api/status/occupied') Set status <b>Occupied</b> (/api/status/occupied)
+  p
+  a(href='/api/status/available') Set status <b>Available</b> (/api/status/available)
+  p
+  a(href='/api/status/away') Set status <b>Away</b> (/api/status/away)
+  p
+  a(href='/api/status/switch') <b>Switch</b> status light on/off (/api/status/switch)
+  p
+
+
   if !user
-    h2 Welcome!
-    a(href='/login') Log In
+   p Login to Azure AD to set status based on presence
+   a(href='/login') Log In
   else
-    p Greetings! #{user.displayName}
-    p
-    h3 Hue commander API
-    p Last command: #{lastCommand}
-    p 
-    a(href='/api/status/opptatt') Set status til opptatt
-    p
-    a(href='/api/status/ledig') Set status til ledig
-    p
-    a(href='/api/status/borte') Set status til borte
-    p
-    a(href='/api/status/switch') Skru lys av/på
-    p
-    a(href='/api/status/ad') Les AD Status og sett lys deretter
+   p You are #{user.displayName}
+   a(href='/api/status/presence') Set status light based on o365 presence (/api/status/presence)
+   
 
  
    

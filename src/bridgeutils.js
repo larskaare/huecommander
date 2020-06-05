@@ -40,7 +40,7 @@ async function StatusSwitch() {
     try {
         authenticatedApi = await getAuthenticatedApi();
     } catch(err) {
-        log.error('SetStatus was not able to get an authenticated API');
+        log.error('SetStatus was not able to get an authenticated HUE API');
     }
 
     const currentLightStatus = await authenticatedApi.lights.getLightAttributesAndState(config.light_id);
@@ -49,12 +49,12 @@ async function StatusSwitch() {
         
         const newLightState = new lightState().off();
         const status = await authenticatedApi.lights.setLightState(config.light_id,newLightState);
-        log.info('Light turned off is ' + status);
+        log.info('Hue Status light turned off is ' + status);
     } else {
           
         const newLightState = new lightState().on();
         const status = await authenticatedApi.lights.setLightState(config.light_id,newLightState);
-        log.info('Light turned on is ' + status);
+        log.info('Hue Status light turned on is ' + status);
     }
    
 }  
@@ -63,12 +63,12 @@ async function StatusSwitch() {
 async function SetStatus(status) {
     let authenticatedApi, colorCode;
 
-    log.info('Preparing to set status light to ' + status)
+    log.info('Preparing to set HUE status light to ' + status)
 
     try {
         authenticatedApi = await getAuthenticatedApi();
     } catch(err) {
-        log.error('SetStatus was not able to get an authenticated API');
+        log.error('HUE SetStatus was not able to get an authenticated API');
     }
 
     switch (status) {
@@ -90,9 +90,9 @@ async function SetStatus(status) {
     
     try {
         const setLight = await authenticatedApi.lights.setLightState(config.light_id,newLightState);
-        log.info('Light turned on, status ' + status + ' (' + setLight + ')');
+        log.info('HUE Status Light turned on, status ' + status + ' (' + setLight + ')');
     } catch (err) {
-        log.error('Unable to set new light state - current state ' + err);
+        log.error('Unable to set new HUE Status Light - current state ' + err);
     }
     
 }
@@ -104,7 +104,7 @@ async function getAuthenticatedApi() {
 
     try {
         ipAddress = await discoverBridge();
-        log.debug('Discovered Bridge at ' + ipAddress);
+        log.debug('HUE - Discovered Bridge at ' + ipAddress);
 
     } catch (err) {
         log.error('Unable to discover any HUE bridges ' + err);
@@ -112,9 +112,9 @@ async function getAuthenticatedApi() {
 
     try {
         authenticatedApi = await hueApi.createLocal(ipAddress).connect(config.username);
-        log.debug('Got authenticated API');
+        log.debug('HUE - Got authenticated API');
     } catch (err) {
-        log.error('Unable to aquire a authenticated API ' + err);
+        log.error('HUE - Unable to aquire a authenticated API ' + err);
     }
 
     return  authenticatedApi;

@@ -15,28 +15,28 @@ exports.createLogger = function(){
 
     case 'development':
         return bunyan.createLogger({
-            name: 'AADemo',
+            name: 'HueC-Dev',
             stream: process.stdout,
             level: config.appConfig.logLevel.development       
         });
 
     case 'debug':
         return bunyan.createLogger({
-            name: 'AADemo',
+            name: 'HueC-Deb',
             stream: process.stdout,
             level: config.appConfig.logLevel.debug       
         });
 
     case 'production':
         return bunyan.createLogger({
-            name: 'AADemo',
+            name: 'HueC-Prod',
             stream: process.stdout,
             level: config.appConfig.logLevel.production       
         });
 
     default:
         return bunyan.createLogger({
-            name: 'AADemo',
+            name: 'HueC-Def',
             stream: process.stdout,
             level: config.appConfig.logLevel.development       
         });
@@ -50,7 +50,7 @@ exports.expressLoggerConfig = function() {
     switch (process.env.NODE_ENV) {
 
     case 'development':
-        return {name: 'DEVELOPMENT',
+        return {name: 'Express-Dev',
             streams: [{
                 level: config.appConfig.logLevel.development,
                 stream: process.stdout
@@ -59,7 +59,7 @@ exports.expressLoggerConfig = function() {
         };
 
     case 'production':
-        return {name: 'PRODUCTION',
+        return {name: 'Express-Prod',
             streams: [{
                 level: config.appConfig.logLevel.production,
                 stream: process.stdout
@@ -68,7 +68,7 @@ exports.expressLoggerConfig = function() {
         };
 
     case 'debug':
-        return {name: 'DEBUG',
+        return {name: 'Express-Deb',
             streams: [{
                 level: config.appConfig.logLevel.debug,
                 stream: process.stdout
@@ -79,7 +79,7 @@ exports.expressLoggerConfig = function() {
     default :
         return {name: process.env.NODE_ENV,
             streams: [{
-                level: 'warn',
+                level: 'Express-Def',
                 stream: process.stdout
             }],
             excludes: ['req-headers', 'user-agent','res-headers','response-hrtime','req','res']

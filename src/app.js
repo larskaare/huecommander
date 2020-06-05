@@ -16,10 +16,6 @@ var log = logHelper.createLogger();
 
 log.info('Logger started, NODE_ENV=' + process.env.NODE_ENV);
 
-// set up database for express session
-// var MongoStore = require('connect-mongo')(expressSession);
-// var mongoose = require('mongoose');
-
 var OIDCStrategy = require('passport-azure-ad').OIDCStrategy;
 
 //
@@ -96,12 +92,7 @@ function(req, iss, sub, profile, jwtClaims, accessToken, refreshToken, info, don
     //follows req thorugh the middleware.
     profile.authInfo = {
         access_token: accessToken,
-        access_token_exp: jwtClaims.exp,
-        refresh_token: refreshToken,
-        scope: info.scope,
-        groups: jwtClaims.groups,
-        roles: jwtClaims.roles
-        
+        refresh_token: refreshToken
     };
     
     if (!profile.oid) {
@@ -139,25 +130,10 @@ app.use(cookieParser());
 // Define logging for middleware
 app.use(require('express-bunyan-logger')(logHelper.expressLoggerConfig()));
 
-// set up session middleware
-// if (config.useMongoDBSessionStore) {
-//     mongoose.connect(config.databaseUri);
-//     app.use(express.session({
-//         secret: 'secret',
-//         cookie: {maxAge: config.mongoDBSessionMaxAge * 1000},
-//         store: new MongoStore({
-//             mongooseConnection: mongoose.connection,
-//             clear_interval: config.mongoDBSessionMaxAge
-//         })
-//     }));
-// } else {
 app.use(expressSession({ secret: 'you will never guess it', resave: true, saveUninitialized: false }));
-// }
 
 app.use(bodyParser.urlencoded({ extended : true }));
 
-// Initialize Passport!  Also use passport.session() middleware, to support
-// persistent login sessions (recommended).
 app.use(passport.initialize());
 app.use(passport.session());
 

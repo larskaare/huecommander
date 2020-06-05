@@ -1,4 +1,5 @@
 
+//General app configuration like port, loglevel
 exports.appConfig = {
     port: '3000',
     logLevel : {
@@ -8,18 +9,19 @@ exports.appConfig = {
     }
 };
 
+//Config used to interface the HUE bridge
 exports.hue = {
 
-    deviceName: 'pi-hue',
-    username: (process.env.HUE_USERNAME || ''),
-    light_id: 1
+    deviceName: 'pi-hue',       
+    username: (process.env.HUE_USERNAME || ''),  //collecting username (api creds) from environment variable
+    light_id: 1  //the light id of the ligh/strip to use for status lights
 
 };
 
-
+//Config used to drive the MSAL experience
 exports.creds = {
     // Required
-    identityMetadata: 'https://login.microsoftonline.com/3aa4a235-b6e2-48d5-9195-7fcf05b459b0/v2.0/.well-known/openid-configuration', 
+    identityMetadata: 'https://login.microsoftonline.com/' + process.env.TENANT_ID + '/v2.0/.well-known/openid-configuration', 
     // or equivalently: 'https://login.microsoftonline.com/<tenant_guid>/v2.0/.well-known/openid-configuration'
     //
     // or you can use the common endpoint
@@ -37,7 +39,7 @@ exports.creds = {
     responseMode: 'form_post', 
   
     // Required, the reply URL registered in AAD for your app
-    redirectUrl: 'http://localhost:3000/auth/openid/return', 
+    redirectUrl: process.env.REDIRECT_URL, 
   
     // Required if we use http for redirectUrl
     allowHttpForRedirectUrl: true,
@@ -77,8 +79,7 @@ exports.creds = {
     // (2) if you want to get access_token for graph api, use the graph api url like 'https://graph.microsoft.com/mail.read'
     // scope: ['profile', 'offline_access', 'https://graph.microsoft.com/mail.read'],
     
-    scope: ['profile', 'openid', 'offline_access',
-        'https://graph.microsoft.com/Presence.Read'], 
+    scope: ['profile', 'openid', 'offline_access', 'https://graph.microsoft.com/Presence.Read'], 
     // Optional, 'error', 'warn' or 'info'
     loggingLevel: 'info',
   
