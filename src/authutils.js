@@ -5,7 +5,7 @@
 var config = require('../config/config.js');
 var rp = require('request-promise');
 var jwtDecode = require('jwt-decode');
-var logHelper = require('./logHelper');
+var logHelper = require('./loghelper.js');
 
 var log = logHelper.createLogger();
 

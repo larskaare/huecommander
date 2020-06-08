@@ -3,7 +3,7 @@
 
 'use strict';
 
-var logHelper = require('./logHelper');
+var logHelper = require('./loghelper.js');
 var log = logHelper.createLogger();
 
 const v3 = require('node-hue-api').v3,

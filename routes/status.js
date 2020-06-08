@@ -5,8 +5,8 @@
 
 var express = require('express');
 var router = express.Router();
-var authUtil = require('../src/authutils');
-var logHelper = require('../src/logHelper');
+var authUtil = require('../src/authutils.js');
+var logHelper = require('../src/loghelper.js');
 var log = logHelper.createLogger();
 var request = require('then-request');
 

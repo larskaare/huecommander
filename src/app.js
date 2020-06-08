@@ -7,11 +7,11 @@ var passport = require('passport');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var randomstring = require('randomstring');
-var logHelper = require('./logHelper');
+var loghelper = require('./loghelper.js');
 var config = require('../config/config.js');
-var authUtil = require('../src/authutils');
+var authUtil = require('../src/authutils.js');
 
-var log = logHelper.createLogger();
+var log = loghelper.createLogger();
 
 
 log.info('Logger started, NODE_ENV=' + process.env.NODE_ENV);
@@ -128,7 +128,7 @@ app.use(methodOverride());
 app.use(cookieParser());
 
 // Define logging for middleware
-app.use(require('express-bunyan-logger')(logHelper.expressLoggerConfig()));
+app.use(require('express-bunyan-logger')(loghelper.expressLoggerConfig()));
 
 app.use(expressSession({ secret: 'you will never guess it', resave: true, saveUninitialized: false }));
 
@@ -227,7 +227,7 @@ app.get('/logout', function(req, res){
 });
 
 //Error logging for middleware
-app.use(require('express-bunyan-logger').errorLogger(logHelper.expressLoggerConfig()));
+app.use(require('express-bunyan-logger').errorLogger(loghelper.expressLoggerConfig()));
 
 //catch 404 and forward to error handler
 app.use(function(req, res, next) {
