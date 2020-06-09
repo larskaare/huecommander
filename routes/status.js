@@ -70,8 +70,8 @@ router.get('/presence', authUtil.ensureAuthenticated, function(req, res) {
             
             log.info('Got response ' + JSON.stringify(presence));
 
-            //if (presence.activity === 'InACall' || presence.activity === 'InAConferenceCall' || presence.activity === 'InAMeeting' || presence.activity === 'Presenting') {
-            if (presence.activity === 'InACall' || presence.activity === 'InAConferenceCall' || presence.activity === 'Presenting') {
+            //if (presence.activity === 'InACall' || presence.activity === 'InAConferenceCall' || presence.activity === 'InAMeeting' || presence.activity === 'Presenting' || presence.activity === 'InAMeeting') {
+            if (presence.activity === 'InACall' || presence.activity === 'InAConferenceCall' || presence.activity === 'Presenting' || presence.activity === 'InAMeeting') {
             
                 const lastCommand = 'AD (Availability:' + presence.availability + ' - Activity:' + presence.activity + ') - Setting status occupied';
                 
