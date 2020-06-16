@@ -10,7 +10,6 @@ var logHelper = require('../src/loghelper.js');
 var log = logHelper.createLogger();
 var request = require('then-request');
 
-
 const bridgeUtils = require('../src/bridgeutils');
 
 router.get('/switch', function(req, res) {

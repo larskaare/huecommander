@@ -92,7 +92,7 @@ function(req, iss, sub, profile, jwtClaims, accessToken, refreshToken, info, don
     //follows req thorugh the middleware.
     profile.authInfo = {
         access_token: accessToken,
-        access_token_exp: jwtClaims.exp,
+      access_token_exp: jwtClaims.exp,
         refresh_token: refreshToken
     };
     
@@ -120,6 +120,7 @@ passport.use(strategy);
 
 var indexRouter = require('../routes/index');
 var statusRouter = require('../routes/status.js');
+var fanRouter=require('../routes/fan.js');
 
 var app = express();
 
@@ -162,6 +163,7 @@ app.use(express.static(__dirname + '/../public'));
 
 app.use('/', indexRouter);
 app.use('/api/status', statusRouter);
+app.use('/api/fan', fanRouter);
 
 app.get('/login',
     function(req, res, next) {

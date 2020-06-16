@@ -4,13 +4,14 @@ A PlayGround project to mess around with Philips Hue lights
 
 The project cosist of a small front-end and a bit bigger back-end.The front  list the various api calls supported by the back end as well as enabling the user to sign in to Azure AD to get access tokens for reading the O365 presence state. The back-end takes the api call and uses those command the HUE lights. One specific light is set to the designates status light - in my case a led strip.
 
-**My usage:** I run the Hue commander on localhost, login and acticate the presence part of the api. This monitors my presence in Office365 and whenever I go into a Microsoft Teams call or are presenting, the status light switches to red. The status goes back to green when I'm done. It's a nice way to communicate my status to my surroundings.
+**My usage:** I run the Hue commander on localhost, login and acticate the presence part of the api. This monitors my presence in Office365 and whenever I go into a Microsoft Teams call or are presenting, the status light switches to red and my fan is turned off (due to noise). The status goes back to green when I'm done and the fan is turned on again. It's a nice way to communicate my status to my surroundings and to get proper ventilation.
 
 ## Pysical components
 
 * [Philips Hue Bridge](https://www2.meethue.com/en-us/p/hue-bridge/046677458478)
 * [Philips Hue Light Strip](https://www2.meethue.com/en-us/p/hue-white-and-color-ambiance-lightstrip-outdoor-197-inch/046677530938)
-  
+* [Philips Hue Smart Plug](https://www2.meethue.com/en-us/p/hue-smart-plug/046677552343)
+
 ## Installing the project
 
 Assuming you have a working NodeJS environment. I've done my testing on v12.16.3
@@ -27,7 +28,7 @@ The Hue Commander is driven by configuration from two places.
 
 ### ./config/config.js
 
-The most important config here is the **hue.light_id**. Set it to the id of your light equipment. If you only have one accessory connected to the bridge - it's most likely **1**
+The most important config here is the **hue.light_id**. Set it to the id of your light equipment. If you only have one accessory connected to the bridge - it's most likely **1**. The **hue.fanId** referes to a smartPlug holding a fan (or other equipment).
 
 ### Environment variables
 
@@ -46,7 +47,6 @@ Create the Hue Bridge credentials using the [Hue Api](https://developers.meethue
 ### Azure AD
 
 To be able to read you presence status from Office 365 you need an application object in a relevant Azure AD. The object is used to log in (single sign on) and aquire access tokens used to read the status from the Office 365 graph. More information on this on [Microsoft Docs](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app)
-
 
 ## Run
 

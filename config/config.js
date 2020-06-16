@@ -14,7 +14,8 @@ exports.hue = {
 
     deviceName: 'pi-hue',       
     username: (process.env.HUE_USERNAME || ''),  //collecting username (api creds) from environment variable
-    light_id: 1  //the light id of the ligh/strip to use for status lights
+    light_id: 1,  //the light id of the ligh/strip to use for status lights
+    fanId: 2 // The lights id of the Hue SmartPlug
 
 };
 

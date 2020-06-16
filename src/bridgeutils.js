@@ -4,6 +4,7 @@
 'use strict';
 
 var logHelper = require('./loghelper.js');
+const LightState = require('node-hue-api/lib/model/lightstate/LightState');
 var log = logHelper.createLogger();
 
 const v3 = require('node-hue-api').v3,
@@ -62,6 +63,7 @@ async function StatusSwitch() {
 //Async function to set colors of statys light
 async function SetStatus(status) {
     let authenticatedApi, colorCode;
+    let turnFanOn = true;
 
     log.info('Preparing to set HUE status light to ' + status);
 
@@ -74,22 +76,27 @@ async function SetStatus(status) {
     switch (status) {
     case 'away':
         colorCode = StatusColors.Away;
+        turnFanOn = false;
         break;
     case 'available':
+        turnFanOn = true;
         colorCode = StatusColors.Available;
         break;
     case 'occupied' :
+        turnFanOn = false;
         colorCode = StatusColors.Occupied;
         break;
     default:
+        turnFanOn = true;
         colorCode = StatusColors.Available;
         break;
     }
 
     const newLightState = new lightState().on().ct(153).bri(198).hue(1416).sat(234).xy(colorCode);
-    
+
     try {
         const setLight = await authenticatedApi.lights.setLightState(config.light_id,newLightState);
+        fanSetOn(turnFanOn);
         log.info('HUE Status Light turned on, status ' + status + ' (' + setLight + ')');
     } catch (err) {
         log.error('Unable to set new HUE Status Light - current state ' + err);
@@ -121,5 +128,35 @@ async function getAuthenticatedApi() {
 
 }
 
+//Async function to set fan (on smartplug) to on/off
+//Argument: true -> turn on, false -> turn off
+
+async function fanSetOn(on) {
+    let authenticatedApi, colorCode;
     
-module.exports = {discoverBridge, StatusSwitch, SetStatus} ;
+    const fanState = new LightState();
+
+    if (on) {
+        fanState.on();
+    } else {
+        fanState.off();
+    }
+
+    log.info('fanSetOn: Preparing to set HUE fan/smartplug to on:' + on);
+
+    try {
+        authenticatedApi = await getAuthenticatedApi();
+    } catch(err) {
+        log.error('fanSetOn: HUE fanOn was not able to get an authenticated API');
+    }
+
+    try {
+        const setFan = await authenticatedApi.lights.setLightState(config.fanId,fanState);
+        log.info('fanSetOn: HUE Fan turned on:' + on);
+    } catch (err) {
+        log.error('fanSetOn: Unable to set new HUE Fan status: ' + err);
+    }
+    
+}
+    
+module.exports = {discoverBridge, StatusSwitch, SetStatus, fanSetOn} ;
