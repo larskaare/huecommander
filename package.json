@@ -28,7 +28,7 @@
     "http-errors": "~1.7.3",
     "jwt-decode": "^2.2.0",
     "method-override": "^3.0.0",
-    "moment": "^2.24.0",
+    "moment": "^2.27.0",
     "morgan": "~1.9.1",
     "node-hue-api": "^4.0.6",
     "passport": "^0.4.1",
