@@ -28,8 +28,8 @@
     "http-errors": "~1.7.3",
     "jwt-decode": "^2.2.0",
     "method-override": "^3.0.0",
-    "moment": "^2.24.0",
-    "morgan": "~1.9.1",
+    "moment": "^2.27.0",
+    "morgan": "~1.10.0",
     "node-hue-api": "^4.0.7",
     "passport": "^0.4.1",
     "passport-azure-ad": "^4.2.1",
@@ -37,11 +37,11 @@
     "qs": "^6.9.2",
     "randomstring": "^1.1.5",
     "request-promise": "^4.2.4",
-    "snyk": "^1.321.0",
+    "snyk": "^1.348.0",
     "then-request": "^6.0.2",
     "underscore": "^1.9.1",
     "url": "^0.11.0",
-    "winston": "^3.2.1"
+    "winston": "^3.3.2"
   },
   "devDependencies": {
     "chai": "^4.2.0",
