@@ -5,10 +5,10 @@
 
 var express = require('express');
 var router = express.Router();
-var authUtil = require('../src/authutils.js');
-var logHelper = require('../src/loghelper.js');
-var log = logHelper.createLogger();
-var request = require('then-request');
+// var authUtil = require('../src/authutils.js');
+// var logHelper = require('../src/loghelper.js');
+// var log = logHelper.createLogger();
+// var request = require('then-request');
 
 
 const bridgeUtils = require('../src/bridgeutils');

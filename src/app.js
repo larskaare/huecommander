@@ -92,7 +92,7 @@ function(req, iss, sub, profile, jwtClaims, accessToken, refreshToken, info, don
     //follows req thorugh the middleware.
     profile.authInfo = {
         access_token: accessToken,
-      access_token_exp: jwtClaims.exp,
+        access_token_exp: jwtClaims.exp,
         refresh_token: refreshToken
     };
     

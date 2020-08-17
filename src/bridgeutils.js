@@ -132,7 +132,7 @@ async function getAuthenticatedApi() {
 //Argument: true -> turn on, false -> turn off
 
 async function fanSetOn(on) {
-    let authenticatedApi, colorCode;
+    let authenticatedApi;
     
     const fanState = new LightState();
 
@@ -153,6 +153,7 @@ async function fanSetOn(on) {
     try {
         const setFan = await authenticatedApi.lights.setLightState(config.fanId,fanState);
         log.info('fanSetOn: HUE Fan turned on:' + on);
+        log.info(setFan);
     } catch (err) {
         log.error('fanSetOn: Unable to set new HUE Fan status: ' + err);
     }
