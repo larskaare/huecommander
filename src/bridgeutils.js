@@ -83,7 +83,7 @@ async function SetStatus(status) {
         colorCode = StatusColors.Available;
         break;
     case 'occupied' :
-        turnFanOn = false;
+        turnFanOn = true;
         colorCode = StatusColors.Occupied;
         break;
     default:
