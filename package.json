@@ -34,7 +34,7 @@
     "passport": "^0.4.1",
     "passport-azure-ad": "^4.3.0",
     "pug": "^2.0.4",
-    "qs": "^6.9.2",
+    "qs": "^6.9.6",
     "randomstring": "^1.1.5",
     "request-promise": "^4.2.4",
     "snyk": "^1.436.0",
