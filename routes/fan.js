@@ -10,22 +10,24 @@ var router = express.Router();
 // var log = logHelper.createLogger();
 // var request = require('then-request');
 
-
 const bridgeUtils = require('../src/bridgeutils');
 
-router.get('/on', function(req, res) {
-
+router.get('/on', function (req, res) {
     bridgeUtils.fanSetOn(true);
-    res.render('index', { title: 'Hue Commander', user: req.user, lastCommand: 'Set Fan On' });
-
+    res.render('index', {
+        title: 'Hue Commander',
+        user: req.user,
+        lastCommand: 'Set Fan On',
+    });
 });
 
-router.get('/off', function(req, res) {
-
+router.get('/off', function (req, res) {
     bridgeUtils.fanSetOn(false);
-    res.render('index', { title: 'Hue Commander', user: req.user, lastCommand: 'Set Fan Off' });
-
+    res.render('index', {
+        title: 'Hue Commander',
+        user: req.user,
+        lastCommand: 'Set Fan Off',
+    });
 });
-
 
 module.exports = router;

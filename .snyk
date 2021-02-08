@@ -4,8 +4,8 @@ version: v1.14.1
 ignore:
   SNYK-JS-USERAGENT-174737:
     - express-bunyan-logger > useragent:
-        reason: No fix available. App not critical.
-        expires: '2020-09-16T12:10:18.326Z'
+        reason: No fix available
+        expires: '2021-03-10T18:43:58.436Z'
 # patches apply the minimum changes required to fix a vulnerability
 patch:
   SNYK-JS-LODASH-567746:
