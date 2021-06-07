@@ -37,17 +37,17 @@
     "qs": "^6.10.1",
     "randomstring": "^1.1.5",
     "request-promise": "^4.2.4",
-    "snyk": "^1.518.0",
     "then-request": "^6.0.2",
     "underscore": "^1.12.1",
     "url": "^0.11.0",
-    "winston": "^3.3.2"
+    "winston": "^3.3.3"
   },
   "devDependencies": {
     "chai": "^4.2.0",
     "eslint": "^7.0.0",
     "mocha": "^7.1.2",
     "nodemon": "^2.0.4",
-    "sinon": "^9.0.2"
+    "sinon": "^9.0.2",
+    "snyk": "^1.622.0"
   }
 }
